@@ -158,7 +158,12 @@ if __name__ == '__main__':
 
     main_logger = set_logging(foreground_mode=args.foreground, debug_mode=debug_mode)
 
-    cluster_configuration = cluster_utils.read_config(config_file=args.config_file)
+    try:
+        cluster_configuration = cluster_utils.read_config(config_file=args.config_file)
+    except Exception as e:
+        main_logger.error(e)
+        sys.exit(1)
+
     if cluster_configuration['disabled']:
         sys.exit(0)
     cluster_items = cluster_utils.get_cluster_items()
